@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { ResponsiveCalendar } from "@nivo/calendar";
+import { safeColors } from "./colors";
 
 const data = [
   {
@@ -253,6 +254,8 @@ const data = [
   },
 ];
 
+const maxValue = Math.max(...data?.map((item) => item.value));
+
 const Home = () => {
   return (
     <main>
@@ -269,22 +272,16 @@ const Home = () => {
           from={"2022-09-01"}
           to={"2023-10-06"}
           emptyColor="#eeeeee"
-          colors={[
-            "#FA8072",
-            "#E9967A",
-            "#CD5C5C",
-            "#DC143C",
-            "#B22222",
-            "#FFFACD",
-            "#90EE90",
-            "#7FFFD4",
-            "#F0FFFF",
-          ]}
           margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
           yearSpacing={40}
           monthBorderColor="#ffffff"
           dayBorderWidth={2}
           dayBorderColor="#ffffff"
+          colorScale={(value) => {
+            const shade = Math.round((value / maxValue) * 100);
+            const color = safeColors[shade];
+            return color;
+          }}
         />
       </div>
     </main>
